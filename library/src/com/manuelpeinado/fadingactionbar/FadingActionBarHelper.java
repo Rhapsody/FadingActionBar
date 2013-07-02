@@ -29,7 +29,8 @@ public class FadingActionBarHelper {
     private ActionBar mActionBar;
     private boolean mLightActionBar;
     private int mScrollPosition;
-
+    private boolean paused;
+    
     public FadingActionBarHelper activity(Activity activity) {
     	mActivity = activity;
     	return this;
@@ -93,8 +94,13 @@ public class FadingActionBarHelper {
         
     	return this;
     }
+    
+    public void pause() {
+    	paused = true;
+    }
 
     public void updateActionBar(Activity activity) {
+    	paused = false;
         mActionBar = getActionBar(activity);
         if (mActionBarBackgroundDrawable == null) {
             mActionBarBackgroundDrawable = activity.getResources().getDrawable(mActionBarBackgroundResId);
@@ -178,6 +184,9 @@ public class FadingActionBarHelper {
         int headerHeight = mHeaderContainer.getHeight() - mActionBar.getHeight();
         float ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
         int newAlpha = (int) (ratio * 255);
-        mActionBarBackgroundDrawable.setAlpha(newAlpha);
+        
+        if (!paused) {
+	        mActionBarBackgroundDrawable.setAlpha(newAlpha);
+    	}
     }
 }
