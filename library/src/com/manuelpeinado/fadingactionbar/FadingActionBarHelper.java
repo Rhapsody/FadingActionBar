@@ -95,6 +95,11 @@ public class FadingActionBarHelper {
     	return this;
     }
     
+    /**
+     * Call this to "pause" the helper.
+     * A paused helper will continue to track scroll position, but will not update the
+     * alpha value of the ActionBar background drawable.
+     */
     public void pause() {
     	paused = true;
     }
